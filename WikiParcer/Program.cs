@@ -15,21 +15,26 @@ namespace WikiParcer
             const string WikiLink = "http://www.wikipedia.org";
 
             IParser WikiParcer = new BaseParser(WikiLink);
-                        
+
+            WikiParcer.Connect();
             WikiParcer.ParceAsync();
 
-            Console.WriteLine($"Link =" + WikiLink + "wodrs count " + WikiParcer.GetWordCount());
+            Console.WriteLine($"Link =" + WikiLink + " words count " + WikiParcer.GetWordCount());
 
-            Parallel.ForEach(WikiParcer.GetChaildLinks(), (link) => {
+            ParallelOptions parallelOptions = new ParallelOptions();
 
-                IParser ChildWiiParcer = new BaseParser(link);
+            var Proccessor = Environment.ProcessorCount;
 
-                ChildWiiParcer.ParceAsync();
+            parallelOptions.MaxDegreeOfParallelism = Proccessor;
 
-                Console.WriteLine($"Link =" + link + "wodrs count " + ChildWiiParcer.GetWordCount());
-                
+            Parallel.ForEach(WikiParcer.GetChaildLinks(), parallelOptions, (link) => {
 
-            });
+                var ChildWikiParcer = new BaseParser(link);
+                ChildWikiParcer.Connect().Wait(200);
+                ChildWikiParcer.ParceAsync();
+
+                Console.WriteLine($"Link =" + link + " has " + ChildWikiParcer.GetWordCount() + " words.");
+           });
         
         }
     }
