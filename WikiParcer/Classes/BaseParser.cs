@@ -74,8 +74,6 @@ namespace WikiParcer.Classes
                     return false;
                 }
             }
-
-
         }
 
         public int GetWordCount()
@@ -106,11 +104,6 @@ namespace WikiParcer.Classes
             var info = clearBody.Where(t => t == ' ').AsParallel();
             wordsCount = info.Count() + 1;
 
-        }
-
-        public void Route(string link)
-        {
-            Link = link;
         }
     }
 }

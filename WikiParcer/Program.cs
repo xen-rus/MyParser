@@ -11,7 +11,6 @@ namespace WikiParcer
 {
     class Program
     {
-
         static  void Main(string[] args)
         {
             const string WikiLink = "http://www.wikipedia.org";
