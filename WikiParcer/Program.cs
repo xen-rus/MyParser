@@ -16,37 +16,17 @@ namespace WikiParcer
         {
             const string WikiLink = "http://www.wikipedia.org";
 
-            IParser WikiParcer = new BaseParser(WikiLink);
+            IParser wikiParser = new BaseParser(WikiLink);
 
-            WikiParcer.Connect();
-            WikiParcer.ParceAsync();
+            wikiParser.Connect();
+            wikiParser.ParceAsync();
 
-            Console.WriteLine($"Link =" + WikiLink + " words count " + WikiParcer.GetWordCount());
+            Console.WriteLine($"Link =" + WikiLink + " words count " + wikiParser.GetWordCount());
 
          //   IThreadWorker parralelWorker = new ParallelWorker(WikiParcer.GetChaildLinks()); // It is better
-            IThreadWorker parralelWorker = new TaskWorker(WikiParcer.GetChaildLinks());
+            IThreadWorker parralelWorker = new TaskWorker(wikiParser.GetChaildLinks());
 
             parralelWorker.Run();
-
-
-            
-            /*
-            ParallelOptions parallelOptions = new ParallelOptions();
-
-            var Proccessor = Environment.ProcessorCount;
-
-            parallelOptions.MaxDegreeOfParallelism = Proccessor;
-
-            Parallel.ForEach(WikiParcer.GetChaildLinks(), parallelOptions, (link) => {
-
-                var ChildWikiParcer = new BaseParser(link);
-                ChildWikiParcer.Connect().Wait(200);
-                ChildWikiParcer.ParceAsync();
-
-                Console.WriteLine($"Link =" + link + " has " + ChildWikiParcer.GetWordCount() + " words.");
-         
-           }); */
-        
         }
     }
 }

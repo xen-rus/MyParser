@@ -27,7 +27,8 @@ namespace WikiParser.Classes
 
             parallelOptions.MaxDegreeOfParallelism = Proccessor;
 
-            Parallel.ForEach(linkList, parallelOptions, (link,loop) => { //Here we can use parral.For
+            //Here we can use parral.For
+            Parallel.ForEach(linkList, parallelOptions, (link,loop) => { 
 
                 lock (_lock)
                     if (counter >= 10)

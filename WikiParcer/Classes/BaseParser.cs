@@ -41,7 +41,9 @@ namespace WikiParcer.Classes
             Link = mainLink;
         }
 
-        public async Task<bool> Connect()
+
+        //We can create loop to connect ;
+        public async Task<bool> Connect() 
         {
             var web = new HtmlWeb();
             web.OverrideEncoding = Encoding.UTF8;
@@ -98,10 +100,10 @@ namespace WikiParcer.Classes
 
             doc.LoadHtml(splitBody);
 
-            var cleanBody =  doc.DocumentNode.InnerText;
+            var clearBody =  doc.DocumentNode.InnerText;
 
-            cleanBody = Regex.Replace(cleanBody, @"(\W+)|\d+", " ");
-            var info = cleanBody.Where(t => t == ' ').AsParallel();
+            clearBody = Regex.Replace(clearBody, @"(\W+)|\d+", " ");
+            var info = clearBody.Where(t => t == ' ').AsParallel();
             wordsCount = info.Count() + 1;
 
         }
