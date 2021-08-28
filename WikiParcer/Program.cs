@@ -4,13 +4,15 @@ using WikiParcer.Interfaces;
 
 using System.Threading;
 using System.Threading.Tasks;
+using WikiParser.Interfaces;
+using WikiParser.Classes;
 
 namespace WikiParcer
 {
     class Program
     {
-        static object _lock = new object();
-        static void Main(string[] args)
+
+        static  void Main(string[] args)
         {
             const string WikiLink = "http://www.wikipedia.org";
 
@@ -21,6 +23,14 @@ namespace WikiParcer
 
             Console.WriteLine($"Link =" + WikiLink + " words count " + WikiParcer.GetWordCount());
 
+         //   IThreadWorker parralelWorker = new ParralelWorker(WikiParcer.GetChaildLinks());
+            IThreadWorker parralelWorker = new TaskWorker(WikiParcer.GetChaildLinks());
+
+            parralelWorker.Run();
+
+
+            
+            /*
             ParallelOptions parallelOptions = new ParallelOptions();
 
             var Proccessor = Environment.ProcessorCount;
@@ -34,7 +44,8 @@ namespace WikiParcer
                 ChildWikiParcer.ParceAsync();
 
                 Console.WriteLine($"Link =" + link + " has " + ChildWikiParcer.GetWordCount() + " words.");
-           });
+         
+           }); */
         
         }
     }

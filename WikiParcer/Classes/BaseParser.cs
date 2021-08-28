@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace WikiParcer.Classes
 {
@@ -75,10 +76,6 @@ namespace WikiParcer.Classes
 
         }
 
-
-
-
-
         public int GetWordCount()
         {
             return wordsCount;
@@ -104,10 +101,9 @@ namespace WikiParcer.Classes
             var cleanBody =  doc.DocumentNode.InnerText;
 
             cleanBody = Regex.Replace(cleanBody, @"(\W+)|\d+", " ");
+            var info = cleanBody.Where(t => t == ' ').AsParallel();
+            wordsCount = info.Count() + 1;
 
-            var strings = cleanBody.Split();
-
-            wordsCount = strings.Count();
         }
 
         public void Route(string link)
