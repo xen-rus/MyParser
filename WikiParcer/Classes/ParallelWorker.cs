@@ -7,13 +7,13 @@ using WikiParser.Interfaces;
 
 namespace WikiParser.Classes
 {
-    class ParralelWorker : IThreadWorker
+    class ParallelWorker : IThreadWorker
     {
         static object _lock = new object();
         int counter;
         List<string> linkList;
 
-        public ParralelWorker(List<string> links)
+        public ParallelWorker(List<string> links)
         {
             linkList = links;
 
@@ -27,7 +27,7 @@ namespace WikiParser.Classes
 
             parallelOptions.MaxDegreeOfParallelism = Proccessor;
 
-            Parallel.ForEach(linkList, parallelOptions, (link,loop) => {
+            Parallel.ForEach(linkList, parallelOptions, (link,loop) => { //Here we can use parral.For
 
                 lock (_lock)
                     if (counter >= 10)

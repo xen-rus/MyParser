@@ -23,7 +23,7 @@ namespace WikiParcer
 
             Console.WriteLine($"Link =" + WikiLink + " words count " + WikiParcer.GetWordCount());
 
-         //   IThreadWorker parralelWorker = new ParralelWorker(WikiParcer.GetChaildLinks());
+         //   IThreadWorker parralelWorker = new ParallelWorker(WikiParcer.GetChaildLinks()); // It is better
             IThreadWorker parralelWorker = new TaskWorker(WikiParcer.GetChaildLinks());
 
             parralelWorker.Run();
