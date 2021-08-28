@@ -22,10 +22,10 @@ namespace WikiParcer
 
             Console.WriteLine($"Link =" + WikiLink + " words count " + wikiParser.GetWordCount());
 
-         //   IThreadWorker parralelWorker = new ParallelWorker(WikiParcer.GetChaildLinks()); // It is better
-            IThreadWorker parralelWorker = new TaskWorker(wikiParser.GetChaildLinks());
+         //   IThreadWorker parallelWorker = new ParallelWorker(WikiParcer.GetChaildLinks()); // It is better
+            IThreadWorker parallelWorker = new TaskWorker(wikiParser.GetChaildLinks());
 
-            parralelWorker.Run();
+            parallelWorker.Run();
         }
     }
 }
