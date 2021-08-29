@@ -95,10 +95,14 @@ namespace WikiParcer.Classes
         {
             var getBody = htmlDoc.DocumentNode.SelectSingleNode("//body");
 
-            var splitBody = Regex.Replace(getBody.InnerHtml, @"(<bdi.*?>((.|\n)*?)<\/bdi>)|
-                                                               (<script.*?>((.|\n)*?)<\/script>)|
-                                                                (<style.*?>((.|\n)*?)<\/style>)",
-                                                                string.Empty, RegexOptions.IgnoreCase).Trim();
+            var splitBody = Regex.Replace(getBody.InnerHtml, @"(.<bdi.*?>((.|\n)*?)<\/bdi>)",
+                                                                " ", RegexOptions.IgnoreCase ).Trim();
+            splitBody = Regex.Replace(splitBody, @"(<script.*?>((.|\n)*?)<\/script>)",
+                                                    " ", RegexOptions.IgnoreCase ).Trim();
+            splitBody = Regex.Replace(splitBody, @"(<noscript.*?>((.|\n)*?)<\/noscript>)",
+                                        " ", RegexOptions.IgnoreCase ).Trim();
+            splitBody = Regex.Replace(splitBody, @"(<style.*?>((.|\n)*?)<\/style>)",
+                                       " ", RegexOptions.IgnoreCase ).Trim();
 
 
             var doc = new HtmlDocument();
@@ -107,12 +111,20 @@ namespace WikiParcer.Classes
 
             var clearBody =  doc.DocumentNode.InnerText;
 
- //           var test = doc.DocumentNode.InnerText.Split().Where(str => str != "");
+            // it is work fiene, but counting spaces is faster then Split...
+            //           var test = doc.DocumentNode.InnerText.Split().Where(str => str != "");
+
 
             clearBody = Regex.Replace(clearBody, @"(\W+)|\d+", " ").Trim();
-
- //           var test1 = clearBody.Split();    //Testing 
-  //           var info1 = test1.Except(test);
+            clearBody = Regex.Replace(clearBody, @"\s+", " ", RegexOptions.Multiline);
+            if ( (clearBody.IndexOf("nbsp") != -1) || (clearBody.IndexOf("raquo") != -1))
+            {
+                clearBody = Regex.Replace(clearBody, @"nbsp|raquo|quot", "").Trim();
+                clearBody = Regex.Replace(clearBody, @"\s+", " ", RegexOptions.Multiline);
+            }
+ 
+            //           var test1 = clearBody.Split();    //Testing 
+            //           var info1 = test1.Except(test);
 
             var info = clearBody.Where(t => t == ' ').AsParallel();
             wordsCount = info.Count() + 1;

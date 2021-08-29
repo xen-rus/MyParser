@@ -67,23 +67,23 @@ namespace WikiParserTests
         }
 
 
-        public async Task ParallelNullArrayTest()
+       /* [Test]
+        public async Task YAruArrayTest()
         {
-            const string WikiLink = "http://www.wikipedia.org";
+            const string WikiLink = "//metanit.com";
 
             BaseParser wikiParser = new BaseParser(WikiLink);
             var isConnect = await wikiParser.Connect();
-            List<string> list = new List<string>();
+            wikiParser.Parce();
+            var info = wikiParser.GetWordCount();
+           // List<string> list = new List<string>();
 
-            list.Add(WikiLink);
-
-            var _list = Substitute.For<List<string>>();
+            //list.Add(WikiLink);
 
 
-            ParallelWorker parallelWorker = new ParallelWorker(null);
-            //Assert.
 
-            Assert.DoesNotThrow(() => parallelWorker.Run());
+            Assert.Equals(wikiParser.GetWordCount(),4);
         }
+       */
     }
 }

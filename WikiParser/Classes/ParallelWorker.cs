@@ -30,6 +30,9 @@ namespace WikiParser.Classes
 
             int last = 10;
 
+            if (linkList == null || linkList.Count == 0)
+                return;
+
              Parallel.For(0, last, parallelOptions, async (i, loop) => {
 
                 var ChildWikiParcer = new BaseParser(linkList[i]);

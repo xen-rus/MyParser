@@ -21,7 +21,7 @@ namespace WikiParcer
             wikiParser.Connect();
             wikiParser.Parce();
 
-            Console.WriteLine($"Link =" + WikiLink + " words count " + wikiParser.GetWordCount());
+            Console.WriteLine($"Link = " + WikiLink + " words count " + wikiParser.GetWordCount());
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
