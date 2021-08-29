@@ -19,7 +19,7 @@ namespace WikiParcer
             IParser wikiParser = new BaseParser(WikiLink);
 
             wikiParser.Connect();
-            wikiParser.Parce();
+            wikiParser.Parse();
 
             Console.WriteLine($"Link = " + WikiLink + " words count " + wikiParser.GetWordCount());
 

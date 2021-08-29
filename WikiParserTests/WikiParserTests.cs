@@ -74,7 +74,7 @@ namespace WikiParserTests
 
             BaseParser wikiParser = new BaseParser(Link);
             var isConnect = await wikiParser.Connect();
-            wikiParser.Parce();
+            wikiParser.Parse();
             var info = wikiParser.GetWordCount();
            // List<string> list = new List<string>();
 

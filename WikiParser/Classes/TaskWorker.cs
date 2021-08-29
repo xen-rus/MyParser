@@ -55,7 +55,7 @@ namespace WikiParser.Classes
 
             if (isConnected)
             {
-                ChildWikiParcer.Parce();
+                ChildWikiParcer.Parse();
                 Console.WriteLine($"Link =" + link + " has " + ChildWikiParcer.GetWordCount() + " words.");
             }
             return isConnected;

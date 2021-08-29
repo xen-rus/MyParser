@@ -91,7 +91,7 @@ namespace WikiParcer.Classes
             return wordsCount;
         }
 
-        public void Parce()
+        public void Parse()
         {
             var getBody = htmlDoc.DocumentNode.SelectSingleNode("//body");
 
