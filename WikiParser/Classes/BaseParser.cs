@@ -47,33 +47,47 @@ namespace WikiParcer.Classes
         {
             var web = new HtmlWeb();
             web.OverrideEncoding = Encoding.UTF8;
-            try
+            bool connect = false; ;
+            int counter = 0;
+            while (!connect)
             {
-                if (Link.Contains("http:") ||
-                   Link.Contains("https:"))
-                    htmlDoc = web.Load(Link, "GET");
-                else
-                    htmlDoc = web.Load("https:" + Link, "GET");
+                if (counter == 5)
+                    break;
 
-                return true;
-            }
-            catch (Exception ex)
-            {
                 try
-                { 
-
-                    htmlDoc = await web.LoadFromWebAsync("http:" + Link);
-
-                    return true;
-                
-                }
-                catch(Exception ex1)
                 {
-                    Console.WriteLine($"Can't connect to " + Link);
+                    if (Link.Contains("http:") ||
+                       Link.Contains("https:"))
+                        htmlDoc = web.Load(Link, "GET");
+                    else
+                        htmlDoc = web.Load("https:" + Link, "GET");
 
-                    return false;
+                    connect = true;
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+
+                        htmlDoc = await web.LoadFromWebAsync("http:" + Link);
+
+                        connect = true;
+
+                    }
+                    catch (Exception ex1)
+                    {
+                        
+                        counter++;
+                        connect = false;
+                    }
                 }
             }
+
+
+            if(!connect)
+                Console.WriteLine($"Can't connect to " + Link);
+
+            return connect;
         }
 
         public int GetWordCount()

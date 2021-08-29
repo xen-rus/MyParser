@@ -10,16 +10,18 @@ namespace WikiParser.Classes
     class ParallelWorker : IThreadWorker
     {
         static object _lock = new object();
+       
+        //foreach realisation
         int counter;
+        
         List<string> linkList;
 
         public ParallelWorker(List<string> links)
         {
             linkList = links;
-
         }
 
-        public void Run()
+        public async void Run()
         {
             ParallelOptions parallelOptions = new ParallelOptions();
 
@@ -27,7 +29,25 @@ namespace WikiParser.Classes
 
             parallelOptions.MaxDegreeOfParallelism = Proccessor;
 
-            //Here we can use parral.For
+            int last = 10;
+
+             Parallel.For(0, last, parallelOptions, async (i, loop) => {
+
+                var ChildWikiParcer = new BaseParser(linkList[i]);
+                var isConnected = await ChildWikiParcer.Connect();
+
+                 if (isConnected)
+                 {
+                     ChildWikiParcer.ParceAsync();
+                     Console.WriteLine($"Link = " + linkList[i] + " has " + ChildWikiParcer.GetWordCount() + " words.");
+                 }
+
+                 // if link doesn't work, we will add one link
+                 else if (linkList.Count + 1 > last)
+                     last++;
+             });
+            /*
+            //
             Parallel.ForEach(linkList, parallelOptions, (link,loop) => { 
 
                 lock (_lock)
@@ -43,6 +63,7 @@ namespace WikiParser.Classes
                 lock (_lock)
                     counter++;
             });
+            */
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WikiParser.Interfaces;
 using WikiParser.Classes;
+using System.Diagnostics;
 
 namespace WikiParcer
 {
@@ -22,10 +23,24 @@ namespace WikiParcer
 
             Console.WriteLine($"Link =" + WikiLink + " words count " + wikiParser.GetWordCount());
 
-         //   IThreadWorker parallelWorker = new ParallelWorker(WikiParcer.GetChaildLinks()); // It is better
-            IThreadWorker parallelWorker = new TaskWorker(wikiParser.GetChaildLinks());
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            //parallerFor
+            IThreadWorker parallelWorker = new ParallelWorker(wikiParser.GetChaildLinks()); // It is better
 
             parallelWorker.Run();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            stopwatch.Restart();
+
+
+            //Task Realization
+            parallelWorker = new TaskWorker(wikiParser.GetChaildLinks());
+           
+            parallelWorker.Run();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
     }
 }
