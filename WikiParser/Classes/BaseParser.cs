@@ -42,7 +42,6 @@ namespace WikiParcer.Classes
         }
 
 
-        //We can create loop to connect ;
         public async Task<bool> Connect() 
         {
             var web = new HtmlWeb();
