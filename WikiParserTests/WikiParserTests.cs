@@ -15,7 +15,7 @@ namespace WikiParserTests
         }
 
         [Test]
-        public async Task ClearConnect()
+        public async Task WikiConnectionTest()
         {
             const string WikiLink = "http://www.wikipedia.org";
 
@@ -26,7 +26,7 @@ namespace WikiParserTests
         }
 
         [Test]
-        public async Task BadConnect()
+        public async Task BadConnectionTest()
         {
             const string WikiLink = "http://www.wiki111pedia.org";
 
@@ -44,15 +44,8 @@ namespace WikiParserTests
 
             BaseParser wikiParser = new BaseParser(WikiLink);
             var isConnect = await wikiParser.Connect();
-            List<string> list = new List<string>();
-
-            list.Add(WikiLink);
-
-            var _list = Substitute.For<List<string>>();
-
 
             ParallelWorker parallelWorker = new ParallelWorker(null);
-            //Assert.
 
             Assert.DoesNotThrow(() => parallelWorker.Run());
         }
@@ -68,7 +61,7 @@ namespace WikiParserTests
 
 
         [Test]
-        public async Task YAruArrayTest()
+        public async Task metanitParceTest()
         {
             const string Link = "//metanit.com";
 
