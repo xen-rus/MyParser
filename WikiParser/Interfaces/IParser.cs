@@ -7,7 +7,7 @@ namespace WikiParcer.Interfaces
 {
     interface IParser
     {
-        void ParceAsync();
+        void Parce();
         Task<bool> Connect();
         int GetWordCount();
         List<string> GetChaildLinks();

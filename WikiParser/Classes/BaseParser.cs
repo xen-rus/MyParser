@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace WikiParcer.Classes
 {
-    class BaseParser : IParser
+    public class BaseParser : IParser
     {
         string Link { get; set; }
 
@@ -64,19 +64,15 @@ namespace WikiParcer.Classes
 
                     connect = true;
                 }
-                catch (Exception ex)
+                catch 
                 {
                     try
                     {
-
                         htmlDoc = await web.LoadFromWebAsync("http:" + Link);
-
                         connect = true;
-
                     }
-                    catch (Exception ex1)
+                    catch 
                     {
-                        
                         counter++;
                         connect = false;
                     }
@@ -95,7 +91,7 @@ namespace WikiParcer.Classes
             return wordsCount;
         }
 
-        public async void ParceAsync()
+        public void Parce()
         {
             var getBody = htmlDoc.DocumentNode.SelectSingleNode("//body");
 
@@ -104,9 +100,6 @@ namespace WikiParcer.Classes
                                                                 (<style.*?>((.|\n)*?)<\/style>)",
                                                                 string.Empty, RegexOptions.IgnoreCase).Trim();
 
-       /*     var htmlwoutBdi = Regex.Replace(getBody.InnerHtml, @"<bdi.*?>((.|\n)*?)<\/bdi>", string.Empty).Trim();
-            var htmlwoutScript = Regex.Replace(htmlwoutBdi, @"<script.*?>((.|\n)*?)<\/script>", string.Empty).Trim(); 
-            var htmlwoutStyle = Regex.Replace(htmlwoutScript, @"<style.*?>((.|\n)*?)<\/style>", string.Empty).Trim(); ;*/
 
             var doc = new HtmlDocument();
 
@@ -114,7 +107,13 @@ namespace WikiParcer.Classes
 
             var clearBody =  doc.DocumentNode.InnerText;
 
-            clearBody = Regex.Replace(clearBody, @"(\W+)|\d+", " ");
+ //           var test = doc.DocumentNode.InnerText.Split().Where(str => str != "");
+
+            clearBody = Regex.Replace(clearBody, @"(\W+)|\d+", " ").Trim();
+
+ //           var test1 = clearBody.Split();    //Testing 
+  //           var info1 = test1.Except(test);
+
             var info = clearBody.Where(t => t == ' ').AsParallel();
             wordsCount = info.Count() + 1;
 

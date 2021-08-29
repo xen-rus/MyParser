@@ -7,7 +7,7 @@ using WikiParcer.Classes;
 
 namespace WikiParser.Classes
 {
-    class TaskWorker : IThreadWorker
+    public class TaskWorker : IThreadWorker
     {
         List<string> linkList;
 
@@ -19,6 +19,9 @@ namespace WikiParser.Classes
         public void Run()
         {
             Task<bool> [] tasks = new Task<bool>[10];
+
+            if (linkList == null  || linkList.Count == 0)
+                return;
 
             int maxLink = 10;
 
@@ -39,7 +42,7 @@ namespace WikiParser.Classes
                    maxLink++;
             }
             
-           // Task.WaitAll(tasks);
+            Task.WaitAll(tasks);
             Console.WriteLine($"Ready");
             
         }
@@ -52,7 +55,7 @@ namespace WikiParser.Classes
 
             if (isConnected)
             {
-                ChildWikiParcer.ParceAsync();
+                ChildWikiParcer.Parce();
                 Console.WriteLine($"Link =" + link + " has " + ChildWikiParcer.GetWordCount() + " words.");
             }
             return isConnected;

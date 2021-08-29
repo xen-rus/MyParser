@@ -7,11 +7,10 @@ using WikiParser.Interfaces;
 
 namespace WikiParser.Classes
 {
-    class ParallelWorker : IThreadWorker
+    public class ParallelWorker : IThreadWorker
     {
-        static object _lock = new object();
-       
         //foreach realisation
+        static object _lock = new object();
         int counter;
         
         List<string> linkList;
@@ -21,7 +20,7 @@ namespace WikiParser.Classes
             linkList = links;
         }
 
-        public async void Run()
+        public void Run()
         {
             ParallelOptions parallelOptions = new ParallelOptions();
 
@@ -38,7 +37,7 @@ namespace WikiParser.Classes
 
                  if (isConnected)
                  {
-                     ChildWikiParcer.ParceAsync();
+                     ChildWikiParcer.Parce();
                      Console.WriteLine($"Link = " + linkList[i] + " has " + ChildWikiParcer.GetWordCount() + " words.");
                  }
 
@@ -46,6 +45,7 @@ namespace WikiParser.Classes
                  else if (linkList.Count + 1 > last)
                      last++;
              });
+            #region Parallel foreach
             /*
             //
             Parallel.ForEach(linkList, parallelOptions, (link,loop) => { 
@@ -64,6 +64,7 @@ namespace WikiParser.Classes
                     counter++;
             });
             */
+            #endregion
         }
     }
 }
